@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MobileKidsApp</string>
     <string name="main_page_speech">Press on new student if you are new to the app, or press on existing student if you already have an account.</string>
+    <string name="profile_creation">Choose your favorite color and shape.</string>
 </resources>

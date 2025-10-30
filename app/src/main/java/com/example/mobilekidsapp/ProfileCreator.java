@@ -15,62 +15,55 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class ProfileCreator extends AppCompatActivity {
 
-    TextToSpeech tts;
-    ImageButton txtToSpeechBtn;
+    Button pDoneBtn, pBackBtn;
+    TextToSpeech ptts;
+    ImageButton pTxtToSpeechBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.profile_creator);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        pDoneBtn = (Button) findViewById(R.id.pDoneBtn);
+        pBackBtn = (Button) findViewById(R.id.pBackBtn);
+        pTxtToSpeechBtn = findViewById(R.id.pSpeechBtn);
 
-        txtToSpeechBtn = findViewById(R.id.speechBtn);
-
-        Button newStuBtn = (Button) findViewById(R.id.newStudentBtn);
-        newStuBtn.setOnClickListener(new View.OnClickListener() {
+        pDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileCreator.class);
+                //go to subject selection page
+            }
+        });
+
+        pBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileCreator.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        Button existingStuBtn = (Button) findViewById(R.id.ExistingStudentBtn);
-        existingStuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Go to existing student page
-            }
-        });
 
-        tts = new TextToSpeech(this, status -> {
+        ptts = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
-                tts.setLanguage(Locale.ENGLISH);
+                ptts.setLanguage(Locale.ENGLISH);
             }
         });
 
-        txtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
+        pTxtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txtToSpeech = getString(R.string.main_page_speech);
-                tts.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
+                String txtToSpeech = getString(R.string.profile_creation);
+                ptts.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
-    }
 
-    @Override
-    protected void onDestroy() {
-        if(tts != null){
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onDestroy();
     }
 }
