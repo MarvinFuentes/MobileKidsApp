@@ -17,8 +17,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button mNewStudentBtn, mExistingStudentBtn;
     TextToSpeech tts;
-    ImageButton txtToSpeechBtn;
+    ImageButton mTxtToSpeechBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        txtToSpeechBtn = findViewById(R.id.speechBtn);
+        mNewStudentBtn = (Button) findViewById(R.id.newStudentBtn);
+        mExistingStudentBtn = (Button) findViewById(R.id.ExistingStudentBtn);
+        mTxtToSpeechBtn = findViewById(R.id.speechBtn);
 
-        Button newStuBtn = (Button) findViewById(R.id.newStudentBtn);
-        newStuBtn.setOnClickListener(new View.OnClickListener() {
+
+        mNewStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProfileCreator.class);
@@ -42,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button existingStuBtn = (Button) findViewById(R.id.ExistingStudentBtn);
-        existingStuBtn.setOnClickListener(new View.OnClickListener() {
+
+        mExistingStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Go to existing student page
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
+        mTxtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String txtToSpeech = getString(R.string.main_page_speech);
