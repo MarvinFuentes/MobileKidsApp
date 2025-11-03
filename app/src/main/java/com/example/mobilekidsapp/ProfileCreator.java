@@ -6,6 +6,8 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,9 @@ public class ProfileCreator extends AppCompatActivity {
     Button pDoneBtn, pBackBtn;
     TextToSpeech ptts;
     ImageButton pTxtToSpeechBtn;
+    LinearLayout pShapesLayout, pColorsLayout;
+    private int pSelectedShape = -1;
+    private int pSelectedColor = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,56 @@ public class ProfileCreator extends AppCompatActivity {
         });
         pDoneBtn = (Button) findViewById(R.id.pDoneBtn);
         pBackBtn = (Button) findViewById(R.id.pBackBtn);
+
         pTxtToSpeechBtn = findViewById(R.id.pSpeechBtn);
+
+        pShapesLayout = findViewById(R.id.shapesLinearLayout);
+        pColorsLayout = findViewById(R.id.colorsLinearLayout);
+
+        int [] pShapeDrawables = {
+                R.drawable.shape_circle,
+                R.drawable.shape_pentagon,
+                R.drawable.shape_square,
+                R.drawable.shape_trapezoid,
+                R.drawable.shape_triangle,
+                R.drawable.shape_oval,
+                R.drawable.shape_rectangle,
+                R.drawable.shape_hexagon,
+                R.drawable.shape_octagon
+        };
+
+        int [] pColorDrawables = {
+                R.drawable.color_select_blue,
+                R.drawable.color_select_green,
+                R.drawable.color_select_purple,
+                R.drawable.color_select_red,
+                R.drawable.color_select_yellow,
+                R.drawable.color_select_pink,
+                R.drawable.color_select_black,
+                R.drawable.color_select_white,
+                R.drawable.color_select_orange
+        };
+
+        for(int drawable : pShapeDrawables){
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(drawable);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(325, 325));
+            imageView.setPadding(16, 16,16,16);
+
+            imageView.setOnClickListener(v -> pSelectedShape = drawable);
+            pShapesLayout.addView(imageView);
+        }
+
+        for(int drawable : pColorDrawables){
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(drawable);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(325, 325));
+            imageView.setPadding(16, 16,16,16);
+
+            imageView.setOnClickListener(v -> pSelectedColor = drawable);
+            pColorsLayout.addView(imageView);
+        }
+
 
         pDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,7 +17,7 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="6"
-        android:text="Choose your favorite shape and color"
+        android:text="Choose your favorite shape and color."
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="70sp"
@@ -27,32 +27,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
-        android:layout_width="822dp"
-        android:layout_height="131dp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        android:id="@+id/scrollViewForColors"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollViewForShapes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <LinearLayout
+            android:id="@+id/colorsLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="822dp"
-        android:layout_height="131dp"
+        android:id="@+id/scrollViewForShapes"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_marginBottom="248dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
+            android:id="@+id/shapesLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <Button
