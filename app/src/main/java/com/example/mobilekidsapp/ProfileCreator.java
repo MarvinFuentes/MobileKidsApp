@@ -23,6 +23,8 @@ public class ProfileCreator extends AppCompatActivity {
     TextToSpeech ptts;
     ImageButton pTxtToSpeechBtn;
     LinearLayout pShapesLayout, pColorsLayout;
+    private ImageView pSelectedShapeView = null;
+    private ImageView pSelectedColorView = null;
     private int pSelectedShape = -1;
     private int pSelectedColor = -1;
 
@@ -72,9 +74,25 @@ public class ProfileCreator extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(drawable);
             imageView.setLayoutParams(new LinearLayout.LayoutParams(325, 325));
-            imageView.setPadding(16, 16,16,16);
+            imageView.setPadding(10, 10,10,10);
 
-            imageView.setOnClickListener(v -> pSelectedShape = drawable);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(pSelectedShapeView != null){
+                        pSelectedShapeView.setBackground(null);
+                    }
+
+                    // Set the newly selected ImageView
+                    pSelectedShapeView = (ImageView) v;
+                    pSelectedShape = drawable;
+
+                    // Create a highlight around the image view that is selected
+                    v.setBackgroundResource(R.drawable.selection_border);
+                }
+            });
+
+
             pShapesLayout.addView(imageView);
         }
 
@@ -82,9 +100,23 @@ public class ProfileCreator extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(drawable);
             imageView.setLayoutParams(new LinearLayout.LayoutParams(325, 325));
-            imageView.setPadding(16, 16,16,16);
+            imageView.setPadding(10, 10,10,10);
 
-            imageView.setOnClickListener(v -> pSelectedColor = drawable);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(pSelectedColorView != null){
+                        pSelectedColorView.setBackground(null);
+                    }
+
+                    // Set the newly selected ImageView
+                    pSelectedColorView = (ImageView) v;
+                    pSelectedColor = drawable;
+
+                    // Create a highlight around the image view that is selected
+                    v.setBackgroundResource(R.drawable.selection_border);
+                }
+            });
             pColorsLayout.addView(imageView);
         }
 
