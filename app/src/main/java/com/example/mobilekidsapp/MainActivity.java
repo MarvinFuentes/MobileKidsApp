@@ -1,6 +1,7 @@
 package com.example.mobilekidsapp;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     Button mNewStudentBtn, mExistingStudentBtn;
     TextToSpeech tts;
     ImageButton mTxtToSpeechBtn;
-    ArrayList<String> studentProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         mExistingStudentBtn = (Button) findViewById(R.id.ExistingStudentBtn);
         mTxtToSpeechBtn = findViewById(R.id.speechBtn);
 
-       ArrayList<String> studentProfiles = new ArrayList<>();
-
         mNewStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         mExistingStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Go to existing student page
+                Intent intent = new Intent(MainActivity.this, ExistingProfile.class);
+                startActivity(intent);
             }
         });
 
