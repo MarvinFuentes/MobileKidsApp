@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button mNewStudentBtn, mExistingStudentBtn;
     TextToSpeech tts;
     ImageButton mTxtToSpeechBtn;
+    ArrayList<String> studentProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mExistingStudentBtn = (Button) findViewById(R.id.ExistingStudentBtn);
         mTxtToSpeechBtn = findViewById(R.id.speechBtn);
 
+       ArrayList<String> studentProfiles = new ArrayList<>();
 
         mNewStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
