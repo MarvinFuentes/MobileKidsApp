@@ -3,8 +3,7 @@
     android:width="80dp"
     android:viewportWidth="100"
     android:viewportHeight="100">
-    <path android:fillColor="@android:color/transparent"
-        android:strokeColor="@android:color/white"
+    <path android:strokeColor="@android:color/white"
         android:strokeWidth="6"
         android:pathData="M10,90 L90,90 L50,15 Z" />
 </vector>

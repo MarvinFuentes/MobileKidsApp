@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3">
+    android:background="#2196F3"
+    tools:context=".ExistingProfile">
 
     <TextView
         android:id="@+id/textView"
@@ -28,18 +29,18 @@
 
     <HorizontalScrollView
         android:id="@+id/studentProfileScroll"
-        android:layout_width="1171dp"
-        android:layout_height="181dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <LinearLayout
+            android:id="@+id/existingProfileLinearLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <Button
@@ -53,15 +54,15 @@
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.736"
+        app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentProfileScroll" />
+        app:layout_constraintTop_toBottomOf="@+id/studentProfileScroll"
+        app:layout_constraintVertical_bias="0.888" />
 
     <Button
         android:id="@+id/eBackBtn"
         android:layout_width="360dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="112dp"
         android:backgroundTint="#4CAF50"
         android:padding="16dp"
         android:text="Back"
@@ -69,21 +70,26 @@
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/eDoneBtn"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.716"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/studentProfileScroll"
+        app:layout_constraintVertical_bias="0.888" />
 
     <ImageButton
         android:id="@+id/eSpeechBtn"
         android:layout_width="121dp"
         android:layout_height="156dp"
         android:layout_margin="24dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="56dp"
         android:adjustViewBounds="true"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintStart_toEndOf="@+id/eDoneBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975"
         app:srcCompat="@drawable/img_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

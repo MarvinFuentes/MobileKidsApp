@@ -1,6 +1,8 @@
 package com.example.mobilekidsapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +23,14 @@ import java.util.Locale;
 public class ProfileCreator extends AppCompatActivity {
 
     Button pDoneBtn, pBackBtn;
-    TextToSpeech ptts;
+    TextToSpeech pTTS;
     ImageButton pTxtToSpeechBtn;
     LinearLayout pShapesLayout, pColorsLayout;
-    private ImageView pSelectedShapeView = null;
-    private ImageView pSelectedColorView = null;
-    private int pSelectedShape = -1;
-    private int pSelectedColor = -1;
+    private ImageView pSelectedShapeView;
+    private ImageView pSelectedColorView;
+    private int pSelectedShape;
+    private int pSelectedColor;
+    StudentDd pDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,14 @@ public class ProfileCreator extends AppCompatActivity {
 
         pShapesLayout = findViewById(R.id.shapesLinearLayout);
         pColorsLayout = findViewById(R.id.colorsLinearLayout);
+
+        pSelectedShapeView = null;
+        pSelectedColorView = null;
+
+        pSelectedShape = -1;
+        pSelectedColor = -1;
+
+        pDbHelper = new StudentDd(this);
 
         int [] pShapeDrawables = {
                 R.drawable.shape_circle,
@@ -91,8 +103,6 @@ public class ProfileCreator extends AppCompatActivity {
                     v.setBackgroundResource(R.drawable.selection_border);
                 }
             });
-
-
             pShapesLayout.addView(imageView);
         }
 
@@ -120,11 +130,21 @@ public class ProfileCreator extends AppCompatActivity {
             pColorsLayout.addView(imageView);
         }
 
-
         pDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //go to subject selection page
+                if(pSelectedColorView != null && pSelectedShapeView != null){
+                    String colorName = getResources().getResourceEntryName(pSelectedColor);
+                    String shapeName = getResources().getResourceEntryName(pSelectedShape);
+
+                    pDbHelper.insertData(colorName, shapeName);
+
+                    Intent intent = new Intent(ProfileCreator.this, SubjectSelection.class);
+                    intent.putExtra("colorName", colorName);
+                    intent.putExtra("shapeName", shapeName);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -136,10 +156,9 @@ public class ProfileCreator extends AppCompatActivity {
             }
         });
 
-
-        ptts = new TextToSpeech(this, status -> {
+        pTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
-                ptts.setLanguage(Locale.ENGLISH);
+                pTTS.setLanguage(Locale.ENGLISH);
             }
         });
 
@@ -147,9 +166,17 @@ public class ProfileCreator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String txtToSpeech = getString(R.string.profile_creation);
-                ptts.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
+                pTTS.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        if(pTTS != null){
+            pTTS.stop();
+            pTTS.shutdown();
+        }
+        super.onDestroy();
     }
 }

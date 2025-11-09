@@ -20,7 +20,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     Button mNewStudentBtn, mExistingStudentBtn;
-    TextToSpeech tts;
+    TextToSpeech mTTS;
     ImageButton mTxtToSpeechBtn;
 
     @Override
@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tts = new TextToSpeech(this, status -> {
+        mTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
-                tts.setLanguage(Locale.ENGLISH);
+                mTTS.setLanguage(Locale.ENGLISH);
             }
         });
 
@@ -65,16 +65,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String txtToSpeech = getString(R.string.main_page_speech);
-                tts.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
+                mTTS.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
     }
 
     @Override
     protected void onDestroy() {
-        if(tts != null){
-            tts.stop();
-            tts.shutdown();
+        if(mTTS != null){
+            mTTS.stop();
+            mTTS.shutdown();
         }
         super.onDestroy();
     }

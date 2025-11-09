@@ -1,61 +1,54 @@
 package com.example.mobilekidsapp;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-public class StudentDd {
-    String databaseName = "student.db";
-
-    //STEP 1
+public class StudentDd extends SQLiteOpenHelper {
     SQLiteDatabase database;
-    
-    //STEP 1
-    public void openDatabase(String databaseName){
-        database = openOrCreateDatabase(databaseName, MODE_PRIVATE, null);
+    private static final String DATABASE_NAME = "student_v2.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String TABLE_NAME = "profiles";
+    private static final String ID_COL = "id";
+    private static final String COLOR_COL = "color";
+    private static final String SHAPE_COL = "shape";
+
+    //Constructor for our database handler
+    public StudentDd(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private SQLiteDatabase openOrCreateDatabase(String databaseName, int modePrivate, Object o) {
-        return null;
+    //Called only once when DB is created for the first time
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String query = "CREATE TABLE " + TABLE_NAME + " ("
+                + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLOR_COL + " TEXT,"
+                + SHAPE_COL + " TEXT)";
+
+        //method to execute above sql query
+        db.execSQL(query);
     }
 
-    //STEP 2
-    public void createTable(String tableName){
-        if(database != null){
-            String sql = "create table" + tableName + "(_id integer PRIMARY KEY autoincrement, name text, age integer, mobile text)";
-            database.execSQL(sql);
-        }
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
     }
-    
+
+    //Inserting a new profile
     public void insertData(String color, String shape){
-        if(database != null){
-            String sql = "insert into student(shape, color) values('','')";
-            database.execSQL(sql);
-        }
-    }
-    
-    //STEP 4
-    public void selectData(String tableName){
-        if(database != null){
-            String sql = "select shape, color from " + tableName;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-            Cursor cursor = database.rawQuery(sql, null);
-            
-            for(int i = 0; i < cursor.getCount(); i++){
-                cursor.moveToNext();
-                String color = cursor.getString(0);
-                String shape = cursor.getString(1);
-                
-                // Find a way to show the shapes the students decided to fill with color
-                //probably will have to manipulate with xml file by removing the
-                //android:strokeColor to transparent or none and changing the
-                //android:fillColor from transparent to the color from the color_select_... file.
-            }
-            cursor.close();
-        }
-    }
-    
+        ContentValues values = new ContentValues();
+        values.put(COLOR_COL, color);
+        values.put(SHAPE_COL, shape);
 
+        db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
 }
