@@ -15,9 +15,19 @@
         <activity android:name="com.example.mobilekidsapp.ProfileCreator"/>
         <activity android:name="com.example.mobilekidsapp.ExistingProfile"/>
         <activity android:name="com.example.mobilekidsapp.SubjectSelection"/>
+        <activity android:name="com.example.mobilekidsapp.AlphabetActivity"
+            android:theme="@style/Theme.MobileKidsApp.AlphabetBar"
+            android:label="Alphabet"/>
+        <activity android:name="com.example.mobilekidsapp.CountingActivity"
+            android:theme="@style/Theme.MobileKidsApp.CountingBar"
+            android:label="Counting"/>
+        <activity android:name="com.example.mobilekidsapp.MathActivity"
+            android:theme="@style/Theme.MobileKidsApp.MathBar"
+            android:label="Math"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,6 +6,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Locale;
 
 public class SubjectSelection extends AppCompatActivity {
-    Button sAlphabetBtn, sCountingBtn, sMathBtn, sBackBtn;
+    Button sBackBtn;
     TextToSpeech sTTS;
     ImageButton sTxtToSpeechBtn;
+    TextView sAlphabetBtn, sCountingBtn, sMathBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -30,38 +32,41 @@ public class SubjectSelection extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sAlphabetBtn = (Button) findViewById(R.id.sAlphabetBtn);
-        sCountingBtn = (Button) findViewById(R.id.sCountingBtn);
-        sMathBtn = (Button) findViewById(R.id.sMathBtn);
         sBackBtn = (Button) findViewById(R.id.sBackBtn);
+        sAlphabetBtn = (TextView) findViewById(R.id.sAlphabetBtn);
+        sCountingBtn = (TextView) findViewById(R.id.sCountingBtn);
+        sMathBtn = (TextView) findViewById(R.id.sMathBtn);
 
         sTxtToSpeechBtn = findViewById(R.id.sSpeechBtn);
+
+        sBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SubjectSelection.this, ExistingProfile.class);
+                startActivity(intent);
+            }
+        });
 
         sAlphabetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Take to the alphabet activity
+                Intent intent = new Intent(SubjectSelection.this, AlphabetActivity.class);
+                startActivity(intent);
             }
         });
 
         sCountingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Take to the counting activity
+                Intent intent = new Intent(SubjectSelection.this, CountingActivity.class);
+                startActivity(intent);
             }
         });
 
         sMathBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Take to the counting activity
-            }
-        });
-
-        sBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SubjectSelection.this, ExistingProfile.class);
+                Intent intent = new Intent(SubjectSelection.this, MathActivity.class);
                 startActivity(intent);
             }
         });

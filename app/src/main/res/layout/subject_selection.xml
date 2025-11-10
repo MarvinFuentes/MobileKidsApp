@@ -27,45 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/sMathBtn"
-        android:layout_width="381dp"
-        android:layout_height="156dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Math"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/sCountingBtn"
-        android:layout_width="381dp"
-        android:layout_height="156dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Counting"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/sMathBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/sAlphabetBtn"
-        android:layout_width="381dp"
-        android:layout_height="156dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Alphabet"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/sCountingBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageButton
         android:id="@+id/sSpeechBtn"
         android:layout_width="121dp"
@@ -94,4 +55,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.94" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="411dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/sAlphabetBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alphabet"
+                android:textSize="75sp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/sCountingBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Counting"
+                android:textSize="75sp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/sMathBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Math"
+                android:textSize="75sp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
