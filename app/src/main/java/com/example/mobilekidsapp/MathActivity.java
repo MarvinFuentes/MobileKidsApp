@@ -36,10 +36,10 @@ public class MathActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
-        if(itemId == R.id.amSaveBtn){
+        if(itemId == R.id.mmSaveBtn){
             Toast.makeText(this, "Save button pressed!", Toast.LENGTH_LONG).show();
         }
-        else if(itemId == R.id.amMenuBtn){
+        else if(itemId == R.id.mmMenuBtn){
             Intent intent = new Intent(MathActivity.this, SubjectSelection.class);
             /*
             intent.putExtra("colorName", existingProfile.eSelectedColorName);

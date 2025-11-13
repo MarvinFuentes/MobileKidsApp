@@ -48,7 +48,8 @@ public class AlphabetActivity extends AppCompatActivity {
                     .replace(R.id.alphabetActivityFragment, alphabetViewerFragment)
                     .commit();
         }
-        ProgressBar aaProgressBar = findViewById(R.id.aaProgressBar);
+
+        aaProgressBar = findViewById(R.id.aaProgressBar);
         aaProgressBar.setProgress(0);
 
         aaClearBtn = (Button) findViewById(R.id.aaClearBtn);
@@ -64,6 +65,7 @@ public class AlphabetActivity extends AppCompatActivity {
                 }
             }
         });
+
         aaForwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +80,7 @@ public class AlphabetActivity extends AppCompatActivity {
                 }
             }
         });
+
         aaBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
