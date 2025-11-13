@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,30 +8,22 @@
     android:id="@+id/main">
 
     <ProgressBar
-        android:id="@+id/maProgressBar"
+        android:id="@+id/aaProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:max="100"
+        android:layout_height="24dp"
+        android:max="26"
+        android:progress="5"
+        android:progressDrawable="@drawable/progress_bar"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/mathActivityFragment"
-        android:name="com.example.mobilekidsapp.MathViewerFragment"
-        android:layout_width="665dp"
-        android:layout_height="551dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="490dp"
         android:layout_height="94dp"
-        android:layout_marginBottom="4dp"
         android:padding="10dp"
         android:shadowColor="#66000000"
         android:shadowDx="2"
@@ -41,9 +34,9 @@
         android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/mathActivityFragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="147dp" />
 
     <ImageButton
         android:id="@+id/maSpeechBtn"
@@ -56,8 +49,6 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/maFowardBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.725"
-        app:layout_constraintStart_toEndOf="@+id/mathActivityFragment"
         app:srcCompat="@drawable/img_1" />
 
     <ImageButton
@@ -71,8 +62,6 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.736"
-        app:layout_constraintStart_toEndOf="@+id/mathActivityFragment"
         app:srcCompat="@drawable/forward_button" />
 
     <ImageButton
@@ -84,8 +73,118 @@
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/mathActivityFragment"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/back_button" />
+
+    <TextView
+        android:id="@+id/maNum2"
+        android:layout_width="166dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:text="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="100sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/maOperation"
+        app:layout_constraintTop_toTopOf="@id/maNum1" />
+
+    <TextView
+        android:id="@+id/maNum1"
+        android:layout_width="166dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="56dp"
+        android:padding="10dp"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:text="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="100sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/maOperation"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+    <TextView
+        android:id="@+id/maOperation"
+        android:layout_width="166dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:text="+"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="100sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/maNum2"
+        app:layout_constraintStart_toEndOf="@id/maNum1"
+        app:layout_constraintTop_toTopOf="@id/maNum1" />
+
+    <EditText
+        android:id="@+id/maAnswer"
+        android:layout_width="614dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white"
+        android:ems="10"
+        android:inputType="number"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.203" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="490dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="44dp"
+        android:padding="10dp"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:text="Enter Answer Here:"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/maSpeechBtn"
+        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maOperation" />
+
+    <Button
+        android:id="@+id/maCheckBtn"
+        android:layout_width="160dp"
+        android:layout_height="97dp"
+        android:backgroundTint="#4CAF50"
+        android:text="Check"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/maFowardBtn"
+        app:layout_constraintStart_toEndOf="@+id/maBackBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
