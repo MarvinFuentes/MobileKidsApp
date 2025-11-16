@@ -19,10 +19,12 @@ public class TracingView extends View {
     private Paint letterPaint;
     private boolean hasWriting = false;
 
+
     public TracingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();
     }
+
     private void setupDrawing(){
         afDrawPath = new Path();
         afDrawPaint = new Paint();
@@ -41,12 +43,14 @@ public class TracingView extends View {
         letterPaint.setTextAlign(Paint.Align.CENTER);
         letterPaint.setAlpha(100);
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
         alphabetBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         alphabetCanvas = new Canvas(alphabetBitmap);
     }
+
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         canvas.drawText(currentLetter, getWidth() / 2f, getHeight() / 1.5f, letterPaint);
@@ -54,6 +58,7 @@ public class TracingView extends View {
         canvas.drawBitmap(alphabetBitmap, 0, 0, afCanvasPaint);
         canvas.drawPath(afDrawPath, afDrawPaint);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -107,4 +112,5 @@ public class TracingView extends View {
     public boolean hasWriting(){
         return hasWriting;
     }
+
 }

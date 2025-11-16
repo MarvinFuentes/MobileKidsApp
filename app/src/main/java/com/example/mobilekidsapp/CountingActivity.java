@@ -2,6 +2,7 @@ package com.example.mobilekidsapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,14 +20,24 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import java.util.Locale;
+
 public class CountingActivity extends AppCompatActivity {
     CountingViewerFragment countingViewerFragment;
     Button caClearBtn;
     ImageButton caForwardBtn, caBackBtn, caSpeechBtn;
     ProgressBar caProgressBar;
+    StudentDd dbHelper;
+    String caProfileColor, caProfileShape;
+    private TextToSpeech caTTS;
+    private final String[] numberPhrases = {"1, There is 1 moon in the sky.", "2, There are 2 wheels on a bike.",
+            "3, A triangle has 3 sides.", "4, There are 4 wheels on a car.", "5, A star has 5 points", "6, A hexagon has 6 sides.",
+            "7, There are 7 colors in the rainbow.", "8, A spider has 8 legs.", "9, A cat has 9 lives.", "10, 10 is a double digit number."};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelper = new StudentDd(this);
         EdgeToEdge.enable(this);
         setContentView(R.layout.counting_activity);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -42,8 +53,20 @@ public class CountingActivity extends AppCompatActivity {
         caSpeechBtn = findViewById(R.id.caSpeechBtn);
 
         caProgressBar = findViewById(R.id.caProgressBar);
-        caProgressBar.setProgress(0);
 
+        caProfileColor = getIntent().getStringExtra("colorName");
+        caProfileShape = getIntent().getStringExtra("shapeName");
+
+        if (caProfileColor == null || caProfileShape == null) {
+            Toast.makeText(this, "Missing profile data!", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        int caSavedProgress = dbHelper.getProgress(caProfileColor, caProfileShape, "counting");
+        caProgressBar.setProgress(caSavedProgress);
+
+        //Load fragment
         FragmentManager fManager = getSupportFragmentManager();
         Fragment fragment = fManager.findFragmentById(R.id.countingActivityFragment);
 
@@ -53,7 +76,10 @@ public class CountingActivity extends AppCompatActivity {
         else {
             countingViewerFragment = new CountingViewerFragment();
             fManager.beginTransaction().replace(R.id.countingActivityFragment, countingViewerFragment).commit();
+            fManager.executePendingTransactions();
         }
+
+        countingViewerFragment.setCurrentNumberIndex(caSavedProgress);
 
         caClearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +98,9 @@ public class CountingActivity extends AppCompatActivity {
                     if(didWrite){
                         int barProgress = caProgressBar.getProgress();
                         if (barProgress < caProgressBar.getMax()){
-                            caProgressBar.setProgress(barProgress + 1);
+                            barProgress++;
+                            caProgressBar.setProgress(barProgress);
+                            dbHelper.updateProgress(caProfileColor, caProfileShape, "counting", barProgress);
                         }
                     }
                 }
@@ -82,7 +110,27 @@ public class CountingActivity extends AppCompatActivity {
         caBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (countingViewerFragment != null) countingViewerFragment.previousNumberCanvas();
+                if (countingViewerFragment != null){
+                    countingViewerFragment.previousNumberCanvas();
+                }
+            }
+        });
+
+        caTTS = new TextToSpeech(this, status -> {
+            if(status == TextToSpeech.SUCCESS){
+                caTTS.setLanguage(Locale.ENGLISH);
+            }
+        });
+
+        caSpeechBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(countingViewerFragment != null){
+                    int index = countingViewerFragment.getCurrentNumberIndex();
+                    if(index >= 0 && index < numberPhrases.length){
+                        caTTS.speak(numberPhrases[index], TextToSpeech.QUEUE_FLUSH, null, null);
+                    }
+                }
             }
         });
     }
@@ -99,13 +147,15 @@ public class CountingActivity extends AppCompatActivity {
 
         if(itemId == R.id.cmSaveBtn){
             Toast.makeText(this, "Save button pressed!", Toast.LENGTH_LONG).show();
+            if(countingViewerFragment != null){
+                countingViewerFragment.saveCurrentCanvas();
+            }
         }
         else if(itemId == R.id.cmMenuBtn){
-            Intent intent = new Intent(CountingActivity.this, SubjectSelection.class);
-            /*
-            intent.putExtra("colorName", existingProfile.eSelectedColorName);
-            intent.putExtra("shapeName", existingProfile.eSelectedShapeName);*/
-            startActivity(intent);
+            if(countingViewerFragment != null){
+                countingViewerFragment.saveCurrentCanvas();
+            }
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

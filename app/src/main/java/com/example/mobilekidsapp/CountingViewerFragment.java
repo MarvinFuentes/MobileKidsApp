@@ -1,6 +1,7 @@
 package com.example.mobilekidsapp;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,21 @@ public class CountingViewerFragment extends Fragment {
         View view = inflater.inflate(R.layout.counting_fragment, container, false);
 
         tracingView = view.findViewById(R.id.tracingView);
-        tracingView.setLetter(String.valueOf(numberList[currentNumberIndex]));
+
+        /*This segment of code loads the first bitmap after the TracingView is completely laid out.
+        post() makes sure that the view has a valid width and height before drawing or loading the
+        bitmap, preventing a crash.*/
+        tracingView.post(() -> {
+            loadBitmap(numberList[currentNumberIndex]);
+            tracingView.setLetter(String.valueOf(numberList[currentNumberIndex]));
+        });
 
         return view;
+    }
+
+    /*This method returns the current number index in this case we used it to keep track of the phrases used for each number.*/
+    public int getCurrentNumberIndex(){
+        return currentNumberIndex;
     }
 
     public void clearCanvas(){
@@ -70,18 +83,57 @@ public class CountingViewerFragment extends Fragment {
         tracingView.setLetter(numberList[currentNumberIndex]);
     }
 
-    private void saveCurrentCanvas(){
+    public void saveCurrentCanvas(){
         if(tracingView == null || tracingView.getBitmap() == null){
             return;
         }
 
-        String currentNumber = numberList[currentNumberIndex];
         Bitmap bitmapCopy = tracingView.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-        numberBitmaps.put(currentNumber, bitmapCopy);
+        String number = numberList[currentNumberIndex];
+
+        numberBitmaps.put(number, bitmapCopy);
+
+        //Save the Bitmap into the database allowing us to later access it.
+        if(getActivity() instanceof CountingActivity){
+            CountingActivity activity = (CountingActivity) getActivity();
+
+            activity.dbHelper.saveBitmap(activity.caProfileColor, activity.caProfileShape, "counting", number, bitmapCopy);
+        }
     }
 
     private void loadBitmap(String number){
         Bitmap bitmap = numberBitmaps.get(number);
+
+        if(bitmap == null && getActivity() instanceof CountingActivity){
+            CountingActivity activity = (CountingActivity) getActivity();
+
+            bitmap = activity.dbHelper.loadBitmap(activity.caProfileColor, activity.caProfileShape, "counting", number);
+
+            if(bitmap != null){
+                numberBitmaps.put(number, bitmap);
+            }
+        }
+
+        if(bitmap == null){
+            bitmap = Bitmap.createBitmap(tracingView.getWidth(), tracingView.getHeight(), Bitmap.Config.ARGB_8888);
+        }
+
         tracingView.setBitmap(bitmap);
+    }
+
+    /*This method sets the correct letter to the student's saved progress. Using post()
+    delays the update until after the TracingView has been fully measured and laid out,
+    making sure that the bitmap loads with the correct width and height.*/
+    public void setCurrentNumberIndex(int index){
+        if(index < 0 || index >= numberList.length) return;
+
+        currentNumberIndex = index;
+
+        if (tracingView != null) {
+            tracingView.post(() -> {
+                loadBitmap(numberList[currentNumberIndex]);
+                tracingView.setLetter(String.valueOf(numberList[currentNumberIndex]));
+            });
+        }
     }
 }

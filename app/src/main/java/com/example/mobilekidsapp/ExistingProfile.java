@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -122,11 +123,14 @@ public class ExistingProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //go to subject selection page
-                if(eSelectedProfile != null){
+                if(eSelectedProfile != null && eSelectedColorName != null && eSelectedShapeName != null){
                     Intent intent = new Intent(ExistingProfile.this, SubjectSelection.class);
                     intent.putExtra("colorName", eSelectedColorName);
                     intent.putExtra("shapeName", eSelectedShapeName);
                     startActivity(intent);
+                }
+                else{
+                    Toast.makeText(ExistingProfile.this, "Please select a profile first!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
