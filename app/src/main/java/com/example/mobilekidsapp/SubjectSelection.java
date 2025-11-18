@@ -50,7 +50,12 @@ public class SubjectSelection extends AppCompatActivity {
         sAlphabetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String colorName = getIntent().getStringExtra("colorName");
+                String shapeName = getIntent().getStringExtra("shapeName");
+
                 Intent intent = new Intent(SubjectSelection.this, AlphabetActivity.class);
+                intent.putExtra("colorName", colorName);
+                intent.putExtra("shapeName", shapeName);
                 startActivity(intent);
             }
         });
@@ -58,7 +63,12 @@ public class SubjectSelection extends AppCompatActivity {
         sCountingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String colorName = getIntent().getStringExtra("colorName");
+                String shapeName = getIntent().getStringExtra("shapeName");
+
                 Intent intent = new Intent(SubjectSelection.this, CountingActivity.class);
+                intent.putExtra("colorName", colorName);
+                intent.putExtra("shapeName", shapeName);
                 startActivity(intent);
             }
         });
@@ -66,7 +76,12 @@ public class SubjectSelection extends AppCompatActivity {
         sMathBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String colorName = getIntent().getStringExtra("colorName");
+                String shapeName = getIntent().getStringExtra("shapeName");
+
                 Intent intent = new Intent(SubjectSelection.this, MathActivity.class);
+                intent.putExtra("colorName", colorName);
+                intent.putExtra("shapeName", shapeName);
                 startActivity(intent);
             }
         });
