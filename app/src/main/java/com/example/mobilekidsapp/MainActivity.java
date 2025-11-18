@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         mExistingStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

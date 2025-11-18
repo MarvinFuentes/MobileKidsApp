@@ -107,7 +107,6 @@ public class MathActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void generateRandEq(){
         int randomNum1 = random.nextInt(10) + 1;
         int randomNum2 = random.nextInt(10) + 1;
