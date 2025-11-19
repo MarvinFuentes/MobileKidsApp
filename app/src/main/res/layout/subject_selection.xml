@@ -76,6 +76,15 @@
                 android:text="Alphabet"
                 android:textSize="75sp"
                 android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:id="@+id/sAlphabetBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:max="26"
+                android:progressDrawable="@drawable/progress_bar" />
+
             <TextView
                 android:id="@+id/sCountingBtn"
                 android:layout_width="match_parent"
@@ -83,6 +92,15 @@
                 android:text="Counting"
                 android:textSize="75sp"
                 android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:id="@+id/sCountingBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:max="10"
+                android:progressDrawable="@drawable/progress_bar" />
+
             <TextView
                 android:id="@+id/sMathBtn"
                 android:layout_width="match_parent"
@@ -90,6 +108,14 @@
                 android:text="Math"
                 android:textSize="75sp"
                 android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:id="@+id/sMathBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:max="20"
+                android:progressDrawable="@drawable/progress_bar" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

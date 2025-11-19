@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MathActivity extends AppCompatActivity {
@@ -26,6 +28,12 @@ public class MathActivity extends AppCompatActivity {
     ImageButton maForwardBtn, maBackBtn;
     EditText maAnswer;
     Random random;
+    ProgressBar maProgressBar;
+    ArrayList<MathQuestion> questionList = new ArrayList<>();
+    int currentIndex = -1;
+    private static final int MAX_QUESTION_AMOUNT = 20;
+    boolean currentAnswerCorrect = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,8 @@ public class MathActivity extends AppCompatActivity {
         maBackBtn = findViewById(R.id.maBackBtn);
         maAnswer = findViewById(R.id.maAnswer);
 
+        maProgressBar = (ProgressBar) findViewById(R.id.maProgressBar);
+
         maNum1 = (TextView) findViewById(R.id.maNum1);
         maNum2 = (TextView) findViewById(R.id.maNum2);
         maOperation = (TextView) findViewById(R.id.maOperation);
@@ -52,15 +62,34 @@ public class MathActivity extends AppCompatActivity {
         maForwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generateRandEq();
-                maAnswer.setText("");
+                questionList.get(currentIndex).userInput = maAnswer.getText().toString();
+
+                if (currentAnswerCorrect) {
+                    maProgressBar.setProgress(maProgressBar.getProgress() + 1);
+                }
+                currentAnswerCorrect = false;   // reset for next question
+
+
+                if (currentIndex == questionList.size() - 1) {
+                    if (questionList.size() < MAX_QUESTION_AMOUNT) {
+                        generateRandEq();  // create new question
+                    } 
+                } else {
+                    currentIndex++;
+                    displayQuestion(questionList.get(currentIndex));
+                }
             }
         });
 
         maBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                questionList.get(currentIndex).userInput = maAnswer.getText().toString();
 
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    displayQuestion(questionList.get(currentIndex));
+                }
             }
         });
 
@@ -78,8 +107,10 @@ public class MathActivity extends AppCompatActivity {
 
                 if (userAnswer == correctAnswer) {
                     Toast.makeText(MathActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
+                    currentAnswerCorrect = true;
                 } else {
                     Toast.makeText(MathActivity.this, "Incorrect: ", Toast.LENGTH_SHORT).show();
+                    currentAnswerCorrect = false;
                 }
             }
         });
@@ -117,8 +148,28 @@ public class MathActivity extends AppCompatActivity {
             randomNum1 = randomNum2;
             randomNum2 = temp;
         }
-        maNum1.setText(String.valueOf(randomNum1));
-        maNum2.setText(String.valueOf(randomNum2));
-        maOperation.setText(randOperation);
+        MathQuestion q = new MathQuestion(randomNum1, randomNum2, randOperation);
+        questionList.add(q);
+        currentIndex++;
+
+        displayQuestion(q);
+    }
+    private void displayQuestion(MathQuestion q) {
+        maNum1.setText(String.valueOf(q.num1));
+        maNum2.setText(String.valueOf(q.num2));
+        maOperation.setText(q.operation);
+        maAnswer.setText(q.userInput);
+    }
+    public class MathQuestion {
+        int num1;
+        int num2;
+        String operation;
+        String userInput = "";
+
+        public MathQuestion(int num1, int num2, String operation) {
+            this.num1 = num1;
+            this.num2 = num2;
+            this.operation = operation;
+        }
     }
 }

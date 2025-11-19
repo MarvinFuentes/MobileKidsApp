@@ -1,6 +1,7 @@
 package com.example.mobilekidsapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.Menu;
@@ -82,6 +83,7 @@ public class AlphabetActivity extends AppCompatActivity {
 
         alphabetViewerFragment.setCurrentLetterIndex(aaSavedProgress);
 
+        /* clears whats on the canvas when user clicks clear button*/
         aaClearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +93,8 @@ public class AlphabetActivity extends AppCompatActivity {
             }
         });
 
+        /* Checks if user has written on canvas so that when user clicks next button it
+        advances the progress bar if they wrote anything.*/
         aaForwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +112,7 @@ public class AlphabetActivity extends AppCompatActivity {
             }
         });
 
+        /* goes to previous stored canvas whn back button is pushed*/
         aaBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

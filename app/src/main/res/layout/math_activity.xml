@@ -8,12 +8,11 @@
     android:id="@+id/main">
 
     <ProgressBar
-        android:id="@+id/aaProgressBar"
+        android:id="@+id/maProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:max="26"
-        android:progress="5"
         android:progressDrawable="@drawable/progress_bar"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"

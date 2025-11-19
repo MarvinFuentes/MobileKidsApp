@@ -45,11 +45,14 @@ public class AlphabetViewerFragment extends Fragment {
         return currentLetterIndex;
     }
 
+    /* Method used in AlphabetActivity for clear canvas button*/
     public void clearCanvas() {
         if (tracingView != null){
             tracingView.clearCanvasBitmap();
         }
     }
+
+    /*Method used to load bitmap and set next letter canvas when the forward button is clicked*/
     public boolean nextLetterCanvas() {
         if (tracingView == null) {
             return false;
@@ -69,6 +72,8 @@ public class AlphabetViewerFragment extends Fragment {
 
         return didWrite;
     }
+
+    /*Method used to load previous bitmap and letter canvas when the back button is clicked*/
     public void previousLetterCanvas() {
         if (tracingView == null){
             return;

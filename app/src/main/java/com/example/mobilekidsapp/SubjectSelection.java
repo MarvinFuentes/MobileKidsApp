@@ -1,11 +1,13 @@
 package com.example.mobilekidsapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +23,7 @@ public class SubjectSelection extends AppCompatActivity {
     TextToSpeech sTTS;
     ImageButton sTxtToSpeechBtn;
     TextView sAlphabetBtn, sCountingBtn, sMathBtn;
+    ProgressBar sAlphabetBar, sCountingBar, sMathBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,6 +41,9 @@ public class SubjectSelection extends AppCompatActivity {
         sMathBtn = (TextView) findViewById(R.id.sMathBtn);
 
         sTxtToSpeechBtn = findViewById(R.id.sSpeechBtn);
+
+        sAlphabetBar = (ProgressBar) findViewById(R.id.sAlphabetBar);
+        sCountingBar = (ProgressBar) findViewById(R.id.sCountingBar);
 
         sBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
