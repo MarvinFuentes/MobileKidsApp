@@ -278,6 +278,8 @@ public class StudentDd extends SQLiteOpenHelper {
         return bitmap;
     }
 
+    //Inserts or updates a math question record with the student's answer.
+    //Uses UNIQUE constraint to avoid duplicate questions for the same student.
     public void insertOrUpdateMathProgress(String color, String shape, int num1, String operation, int num2, String userInput) {
         if (userInput == null || userInput.isEmpty()) return; // skip empty answers
 
@@ -293,28 +295,33 @@ public class StudentDd extends SQLiteOpenHelper {
         values.put(MATH_NUM2, num2);
         values.put(MATH_INPUT, inputValue);
 
+        // REPLACE ensures one record per question per student
         db.insertWithOnConflict(TABLE_MATH, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
-
+    //method returns all saved math questions and user answers for a specific student.
     public ArrayList<MathActivity.MathQuestion> getMathQuestionsForStudent(String color, String shape) {
+        //arraylist to hold questions grabbed from db
         ArrayList<MathActivity.MathQuestion> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
+        //queries the math table for the question that belongs to a specific student
         Cursor cursor = db.query(TABLE_MATH, null, "color=? AND shape=?", new String[]{color, shape}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
+            //do/while loop to get each value from the db
             do {
                 int num1 = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_NUM1));
                 String op = cursor.getString(cursor.getColumnIndexOrThrow(MATH_OPERATION));
                 int num2 = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_NUM2));
                 int input = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_INPUT));
 
+                //recreates each question that was stored in the db
                 MathActivity.MathQuestion q = new MathActivity.MathQuestion(num1, num2, op);
                 q.userInput = String.valueOf(input);
 
                 list.add(q);
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext()); //go to next row and repeat
             cursor.close();
         }
 
