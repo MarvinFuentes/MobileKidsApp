@@ -1,6 +1,8 @@
 package com.example.mobilekidsapp;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +32,11 @@ public class MathActivity extends AppCompatActivity {
     Random random;
     ProgressBar maProgressBar;
     ArrayList<MathQuestion> questionList = new ArrayList<>();
-    int currentIndex = -1;
+    int currentIndex = 0;
     private static final int MAX_QUESTION_AMOUNT = 20;
     boolean currentAnswerCorrect = false;
+    String studentColor;
+    String studentShape;
 
 
     @Override
@@ -56,16 +60,38 @@ public class MathActivity extends AppCompatActivity {
         maNum2 = (TextView) findViewById(R.id.maNum2);
         maOperation = (TextView) findViewById(R.id.maOperation);
 
+        studentColor = getIntent().getStringExtra("colorName");
+        studentShape = getIntent().getStringExtra("shapeName");
+
         random = new Random();
-        generateRandEq();
+
+        StudentDd db = new StudentDd(this);
+        questionList = db.getMathQuestionsForStudent(studentColor, studentShape);
+
+
+        if (questionList.isEmpty()) {
+            generateRandEq();
+        }
+
+        displayQuestion(questionList.get(currentIndex));
+
+        int progress = db.getProgress(studentColor, studentShape, "math");
+        maProgressBar.setProgress(progress);
 
         maForwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionList.get(currentIndex).userInput = maAnswer.getText().toString();
+                MathQuestion q = questionList.get(currentIndex);
+                q.userInput = maAnswer.getText().toString();
+                saveQuestionToDB(q);
 
                 if (currentAnswerCorrect) {
+                    int newProgress = maProgressBar.getProgress() + 1;
                     maProgressBar.setProgress(maProgressBar.getProgress() + 1);
+
+                    StudentDd db = new StudentDd(MathActivity.this);
+                    db.updateProgress(studentColor, studentShape, "math", newProgress);
+                    db.close();
                 }
                 currentAnswerCorrect = false;   // reset for next question
 
@@ -141,17 +167,17 @@ public class MathActivity extends AppCompatActivity {
     private void generateRandEq(){
         int randomNum1 = random.nextInt(10) + 1;
         int randomNum2 = random.nextInt(10) + 1;
-        String randOperation = random.nextBoolean() ? "+" : "−";
+        String randOperation = random.nextBoolean() ? "+" : "-";
 
-        if (randOperation.equals("−") && randomNum2 > randomNum1) {
+        if (randOperation.equals("-") && randomNum2 > randomNum1) {
             int temp = randomNum1;
             randomNum1 = randomNum2;
             randomNum2 = temp;
         }
         MathQuestion q = new MathQuestion(randomNum1, randomNum2, randOperation);
         questionList.add(q);
-        currentIndex++;
 
+        currentIndex = questionList.size() - 1;
         displayQuestion(q);
     }
     private void displayQuestion(MathQuestion q) {
@@ -160,7 +186,14 @@ public class MathActivity extends AppCompatActivity {
         maOperation.setText(q.operation);
         maAnswer.setText(q.userInput);
     }
-    public class MathQuestion {
+
+    private void saveQuestionToDB(MathQuestion q) {
+        if (q.userInput == null || q.userInput.isEmpty()) return; // skip empty input
+        StudentDd db = new StudentDd(this);
+        db.insertOrUpdateMathProgress(studentColor, studentShape, q.num1, q.operation, q.num2, q.userInput);
+        db.close();
+    }
+    public static class MathQuestion {
         int num1;
         int num2;
         String operation;
