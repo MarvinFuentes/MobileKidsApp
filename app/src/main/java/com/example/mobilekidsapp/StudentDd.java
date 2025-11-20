@@ -235,8 +235,7 @@ public class StudentDd extends SQLiteOpenHelper {
     }
 
     public void insertOrUpdateMathProgress(String color, String shape, int num1, String operation, int num2, String userInput) {
-        if (userInput == null || userInput.isEmpty()) return; // skip empty answers
-
+        if (userInput == null || userInput.isEmpty()) return;
         int inputValue = Integer.parseInt(userInput);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -252,8 +251,6 @@ public class StudentDd extends SQLiteOpenHelper {
         db.insertWithOnConflict(TABLE_MATH, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
-
-
     public ArrayList<MathActivity.MathQuestion> getMathQuestionsForStudent(String color, String shape) {
         ArrayList<MathActivity.MathQuestion> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
