@@ -70,6 +70,7 @@ public class StudentDd extends SQLiteOpenHelper {
                 + DRAWING_PAGE_COL + "))";
 
         //The same method is called twice to execute both queries above.
+
         db.execSQL(mainTable);
         db.execSQL(drawingTable);
 
