@@ -19,11 +19,11 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Locale;
 
 public class SubjectSelection extends AppCompatActivity {
+    // Setting all of our variables for buttons, TextToSpeech, ImageButton, and TextViews.
     Button sBackBtn;
     TextToSpeech sTTS;
     ImageButton sTxtToSpeechBtn;
     TextView sAlphabetBtn, sCountingBtn, sMathBtn;
-    ProgressBar sAlphabetBar, sCountingBar, sMathBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -35,30 +35,40 @@ public class SubjectSelection extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // We locate all of our TextsViews and Button by using findViewById().
         sBackBtn = (Button) findViewById(R.id.sBackBtn);
         sAlphabetBtn = (TextView) findViewById(R.id.sAlphabetBtn);
         sCountingBtn = (TextView) findViewById(R.id.sCountingBtn);
         sMathBtn = (TextView) findViewById(R.id.sMathBtn);
 
+        // We locate our Text to speech image button by using findViewById().
         sTxtToSpeechBtn = findViewById(R.id.sSpeechBtn);
 
-        sAlphabetBar = (ProgressBar) findViewById(R.id.sAlphabetBar);
-        sCountingBar = (ProgressBar) findViewById(R.id.sCountingBar);
-
+        // We set an setOnClickListener for the back button.
         sBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // When the back button is clicked we create a new intent.
+                // We use startActivity() sends the use back to ExistingProfile activity.
                 Intent intent = new Intent(SubjectSelection.this, ExistingProfile.class);
                 startActivity(intent);
             }
         });
 
+        // We set an setOnClickListener for the Alphabet activity button.
         sAlphabetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // When get the selected profile (color and shape) from ExistingProfile.
+                // We use getIntent() to make it possible.
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
+                // Now we create new intent and pass on the profile that selected the alphabetActivity.
+                // This ensures that we move on forward using the same profile from ExistingProfile()
+                // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, AlphabetActivity.class);
                 intent.putExtra("colorName", colorName);
                 intent.putExtra("shapeName", shapeName);
@@ -66,12 +76,18 @@ public class SubjectSelection extends AppCompatActivity {
             }
         });
 
+        // We set an setOnClickListener for the counting activity button.
         sCountingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // When the counting activity button is click we use getIntent() and getStringExtra()
+                // to locate the the exact profile that was selected from ExistingProfile.
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
+                // Now we initialize a new intent and pass on the color name and shape name of the profile that
+                // selected the countingActivity. This ensures that we move on forward using the same profile from
+                // ExistingProfile() all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, CountingActivity.class);
                 intent.putExtra("colorName", colorName);
                 intent.putExtra("shapeName", shapeName);
@@ -92,23 +108,31 @@ public class SubjectSelection extends AppCompatActivity {
             }
         });
 
+        // We now initialize the TextToSpeech and if the setup is successful, then we set the
+        // language to English.
         sTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
                 sTTS.setLanguage(Locale.ENGLISH);
             }
         });
 
+        // We set an onClickListen for the text to speech image button.
         sTxtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Here we load a string resource that explains the subject selection screen.
+                // speak() reads it aloud, and QUEUE_FLUSH clears anything that was playing before.
                 String txtToSpeech = getString(R.string.subject_selection);
                 sTTS.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
     }
 
+    // onDestroy() is used to make sure Text-to-Speech does not interfere with other activities
+    // and prevents memory leaks.
     @Override
     protected void onDestroy() {
+        // We check if TextToSpeech is active. If so, we stop and shut it down properly.
         if(sTTS != null){
             sTTS.stop();
             sTTS.shutdown();
