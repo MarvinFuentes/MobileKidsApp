@@ -66,7 +66,7 @@ public class SubjectSelection extends AppCompatActivity {
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
-                // Now we create new intent and pass on the profile that selected the alphabetActivity.
+                // Now we create new intent and pass on the profile that is selected over to the alphabetActivity.
                 // This ensures that we move on forward using the same profile from ExistingProfile()
                 // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, AlphabetActivity.class);
@@ -85,7 +85,7 @@ public class SubjectSelection extends AppCompatActivity {
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
-                // Now we create new intent and pass on the profile that selected the countingActivity.
+                // Now we create new intent and pass on the profile that is selected over to the countingActivity.
                 // This ensures that we move on forward using the same profile from ExistingProfile()
                 // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, CountingActivity.class);
@@ -95,12 +95,18 @@ public class SubjectSelection extends AppCompatActivity {
             }
         });
 
+        // We set an setOnClickListener for the math activity button.
         sMathBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // When the math activity button is click we use getIntent() and getStringExtra()
+                // to locate the the exact profile that was selected from ExistingProfile.
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
+                // Now we create new intent and pass on the profile that is selected over to the mathActivity.
+                // This ensures that we move on forward using the same profile from ExistingProfile()
+                // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, MathActivity.class);
                 intent.putExtra("colorName", colorName);
                 intent.putExtra("shapeName", shapeName);
