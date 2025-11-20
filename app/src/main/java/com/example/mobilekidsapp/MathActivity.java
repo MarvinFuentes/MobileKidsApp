@@ -144,7 +144,7 @@ public class MathActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.alphabet_menu, menu);
+        getMenuInflater().inflate(R.menu.math_menu, menu);
         return true;
     }
 
@@ -154,13 +154,12 @@ public class MathActivity extends AppCompatActivity {
 
         if(itemId == R.id.mmSaveBtn){
             Toast.makeText(this, "Save button pressed!", Toast.LENGTH_LONG).show();
+            return true;
         }
         else if(itemId == R.id.mmMenuBtn){
             Intent intent = new Intent(MathActivity.this, SubjectSelection.class);
-            /*
-            intent.putExtra("colorName", existingProfile.eSelectedColorName);
-            intent.putExtra("shapeName", existingProfile.eSelectedShapeName);*/
             startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
