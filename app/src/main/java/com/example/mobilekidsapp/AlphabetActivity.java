@@ -62,7 +62,7 @@ public class AlphabetActivity extends AppCompatActivity {
         aaBackBtn = findViewById(R.id.aaBackBtn);
         aaSpeechBtn = findViewById(R.id.aaSpeechBtn);
 
-        // We locate all of our ProgressBar using findViewById().
+        // We locate our ProgressBar using findViewById().
         aaProgressBar = findViewById(R.id.aaProgressBar);
 
         // We retrieve the selected profile from the Intent using the color and shape.
@@ -85,7 +85,7 @@ public class AlphabetActivity extends AppCompatActivity {
         FragmentManager fManager = getSupportFragmentManager();
         Fragment fragment = fManager.findFragmentById(R.id.alphabetActivityFragment);
 
-        // If check if the fragment already exists, if does then we reuse it. Otherwise, we create a new one.
+        // We check if the fragment already exists, if does then we reuse it. Otherwise, we create a new one.
         if (fragment instanceof AlphabetViewerFragment) {
             alphabetViewerFragment = (AlphabetViewerFragment) fragment;
         }
@@ -151,8 +151,8 @@ public class AlphabetActivity extends AppCompatActivity {
             }
         });
 
-        // We now initialize the TextToSpeech and if the setup is successful, then we set the
-        // language to English.
+        /* We now initialize the TextToSpeech and if the setup is successful, then we set the
+        language to English. */
         aaTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
                 aaTTS.setLanguage(Locale.ENGLISH);

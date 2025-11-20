@@ -50,7 +50,7 @@ public class SubjectSelection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // When the back button is clicked we create a new intent.
-                // We use startActivity() sends the use back to ExistingProfile activity.
+                // We use startActivity() to send the user back to ExistingProfile activity.
                 Intent intent = new Intent(SubjectSelection.this, ExistingProfile.class);
                 startActivity(intent);
             }
@@ -61,8 +61,8 @@ public class SubjectSelection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // When get the selected profile (color and shape) from ExistingProfile.
-                // We use getIntent() to make it possible.
+                // When the alphabet activity button is click we use getIntent() and getStringExtra()
+                // to locate the the exact profile that was selected from ExistingProfile.
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
@@ -85,9 +85,9 @@ public class SubjectSelection extends AppCompatActivity {
                 String colorName = getIntent().getStringExtra("colorName");
                 String shapeName = getIntent().getStringExtra("shapeName");
 
-                // Now we initialize a new intent and pass on the color name and shape name of the profile that
-                // selected the countingActivity. This ensures that we move on forward using the same profile from
-                // ExistingProfile() all data will be recorded for whenever they decide to log back in.
+                // Now we create new intent and pass on the profile that selected the countingActivity.
+                // This ensures that we move on forward using the same profile from ExistingProfile()
+                // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, CountingActivity.class);
                 intent.putExtra("colorName", colorName);
                 intent.putExtra("shapeName", shapeName);
@@ -108,8 +108,8 @@ public class SubjectSelection extends AppCompatActivity {
             }
         });
 
-        // We now initialize the TextToSpeech and if the setup is successful, then we set the
-        // language to English.
+        /* We now initialize the TextToSpeech and if the setup is successful, then we set the
+        language to English.*/
         sTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
                 sTTS.setLanguage(Locale.ENGLISH);
@@ -120,7 +120,7 @@ public class SubjectSelection extends AppCompatActivity {
         sTxtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Here we load a string resource that explains the subject selection screen.
+                // Here we load a string that explains the subject selection screen.
                 // speak() reads it aloud, and QUEUE_FLUSH clears anything that was playing before.
                 String txtToSpeech = getString(R.string.subject_selection);
                 sTTS.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
