@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mExistingStudentBtn = (Button) findViewById(R.id.ExistingStudentBtn);
         mTxtToSpeechBtn = findViewById(R.id.speechBtn);
 
+        //Button to move to ProfileCreator.class
         mNewStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Button to move to ExistingProfile.class
         mExistingStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,15 +56,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // We now initialize the TextToSpeech and if the setup is successful, then we set the
+        // language to English.
         mTTS = new TextToSpeech(this, status -> {
             if(status == TextToSpeech.SUCCESS){
                 mTTS.setLanguage(Locale.ENGLISH);
             }
         });
 
+        // We set an onClickListen for the text to speech image button.
         mTxtToSpeechBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Here we load a string resource that explains the subject selection screen.
+                // speak() reads it aloud, and QUEUE_FLUSH clears anything that was playing before.
                 String txtToSpeech = getString(R.string.main_page_speech);
                 mTTS.speak(txtToSpeech, TextToSpeech.QUEUE_FLUSH, null, null);
             }
