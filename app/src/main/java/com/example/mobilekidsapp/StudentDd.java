@@ -158,6 +158,7 @@ public class StudentDd extends SQLiteOpenHelper {
             db.insert(TABLE_NAME, null, values);
         }
 
+        // Finally, we close the database.
         db.close();
     }
 
