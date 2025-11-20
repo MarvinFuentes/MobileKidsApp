@@ -1,7 +1,5 @@
 package com.example.mobilekidsapp;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class StudentDd extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "student_v4.db";
+    private static final String DATABASE_NAME = "student_v9.db";
     private static final int DATABASE_VERSION = 2;
 
     /*These are the attributes for the main profile table. Each row will represent a student profile and all of the
@@ -37,6 +35,11 @@ public class StudentDd extends SQLiteOpenHelper {
     private static final String DRAWING_SUB_COL = "subject";
     private static final String DRAWING_PAGE_COL = "page";
     private static final String DRAWING_BITMAP_COL = "bitmap";
+    static final String TABLE_MATH = "math_table";
+    static final String MATH_NUM1 = "num1";
+    static final String MATH_OPERATION = "operation";
+    static final String MATH_NUM2 = "num2";
+    static final String MATH_INPUT = "input";
 
     //Constructor for our database handler
     public StudentDd(Context context){
@@ -69,10 +72,21 @@ public class StudentDd extends SQLiteOpenHelper {
                 + DRAWING_SUB_COL + ", "
                 + DRAWING_PAGE_COL + "))";
 
+        String mathTable = "CREATE TABLE " + TABLE_MATH + " ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "color TEXT, "
+                + "shape TEXT, "
+                + MATH_NUM1 + " INTEGER, "
+                + MATH_OPERATION + " TEXT, "
+                + MATH_NUM2 + " INTEGER, "
+                + MATH_INPUT + " INTEGER, "
+                + "UNIQUE(color, shape, num1, operation, num2) ON CONFLICT REPLACE"
+                + ");";
+
         //The same method is called twice to execute both queries above.
         db.execSQL(mainTable);
         db.execSQL(drawingTable);
-
+        db.execSQL(mathTable);
     }
 
     /*This method is called whenever the database is upgraded version.
@@ -81,6 +95,7 @@ public class StudentDd extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRAWINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATH);
         onCreate(db);
     }
 
@@ -169,7 +184,8 @@ public class StudentDd extends SQLiteOpenHelper {
         return progress;
     }
 
-    //This method is responsible for saving the individual bit maps for the alphabet and counting activities as letter or number pages.
+    //This method is responsible for saving the individual bit maps for the alphabet and counting
+    // activities as letter or number pages.
     public void saveBitmap(String color, String shape, String subject, String page, Bitmap bitmap){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -217,4 +233,50 @@ public class StudentDd extends SQLiteOpenHelper {
         db.close();
         return bitmap;
     }
+
+    public void insertOrUpdateMathProgress(String color, String shape, int num1, String operation, int num2, String userInput) {
+        if (userInput == null || userInput.isEmpty()) return; // skip empty answers
+
+        int inputValue = Integer.parseInt(userInput);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("color", color);
+        values.put("shape", shape);
+        values.put(MATH_NUM1, num1);
+        values.put(MATH_OPERATION, operation);
+        values.put(MATH_NUM2, num2);
+        values.put(MATH_INPUT, inputValue);
+
+        db.insertWithOnConflict(TABLE_MATH, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.close();
+    }
+
+
+    public ArrayList<MathActivity.MathQuestion> getMathQuestionsForStudent(String color, String shape) {
+        ArrayList<MathActivity.MathQuestion> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_MATH, null, "color=? AND shape=?", new String[]{color, shape}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int num1 = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_NUM1));
+                String op = cursor.getString(cursor.getColumnIndexOrThrow(MATH_OPERATION));
+                int num2 = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_NUM2));
+                int input = cursor.getInt(cursor.getColumnIndexOrThrow(MATH_INPUT));
+
+                MathActivity.MathQuestion q = new MathActivity.MathQuestion(num1, num2, op);
+                q.userInput = String.valueOf(input);
+
+                list.add(q);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        db.close();
+        return list;
+    }
+
+
 }
