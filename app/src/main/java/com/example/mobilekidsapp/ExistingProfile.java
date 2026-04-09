@@ -91,8 +91,7 @@ public class ExistingProfile extends AppCompatActivity {
             // Get the base drawable and make it mutable so we can change the color.
             Drawable shapeDrawable = getResources().getDrawable(shapeResId, null).mutate();
 
-            /* We change the color of the shape based off the color saved in the database. With multiple
-            if statements we check what color was picked during profile creation and then use setTint()
+            /* We change the color of the shape based off the color saved in the database. With multiple            if statements we check what color was picked during profile creation and then use setTint()
             to change the color of the shape by accessing the color.xml file where all the colors are saved .*/
             if(colorName.equals("color_select_black")) shapeDrawable.setTint(getColor(R.color.black));
 

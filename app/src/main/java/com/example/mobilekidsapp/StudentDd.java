@@ -328,6 +328,4 @@ public class StudentDd extends SQLiteOpenHelper {
         db.close();
         return list;
     }
-
-
 }

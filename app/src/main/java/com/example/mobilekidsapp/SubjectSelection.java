@@ -67,7 +67,7 @@ public class SubjectSelection extends AppCompatActivity {
                 String shapeName = getIntent().getStringExtra("shapeName");
 
                 // Now we create new intent and pass on the profile that is selected over to the alphabetActivity.
-                // This ensures that we move on forward using the same profile from ExistingProfile()
+                // This ensures that we move on forward using the same profile from ExistingProfile &
                 // all data will be recorded for whenever they decide to log back in.
                 Intent intent = new Intent(SubjectSelection.this, AlphabetActivity.class);
                 intent.putExtra("colorName", colorName);
