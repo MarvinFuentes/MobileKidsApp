@@ -5,7 +5,7 @@ I’m proud to present a mobile application that my team and I built as our fina
 ## Features
 - Text-to-Speech for instructions and phrases
 - Alphabet activity with letter tracing and guided phrases
-- Counting activity with number tracing and patterns
+- Counting activity with number tracing and guided phrases
 - Math activity with randomized questions and answer validation
 - Unique profile system using colors and shapes
 - Progress saving so users can continue where they left off
